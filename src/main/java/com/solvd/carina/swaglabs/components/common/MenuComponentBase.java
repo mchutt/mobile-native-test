@@ -7,7 +7,7 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
 
-public abstract class MenuComponentBase extends AbstractUIObject implements ICustomTypePageFactory {
+public class MenuComponentBase extends AbstractUIObject implements ICustomTypePageFactory {
 
     @ExtendedFindBy(accessibilityId = "test-LOGOUT")
     private ExtendedWebElement logoutBtn;

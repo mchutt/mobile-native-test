@@ -1,10 +1,11 @@
 package com.solvd.carina.swaglabs.pages.common;
 
-import com.solvd.carina.swaglabs.components.ios.Header;
-import com.solvd.carina.swaglabs.components.ios.ProductCardComponent;
-import com.solvd.carina.swaglabs.components.ios.SortModal;
+import com.solvd.carina.swaglabs.components.common.ProductCardComponentBase;
+import com.solvd.carina.swaglabs.components.common.SortModalBase;
+import com.solvd.carina.swaglabs.components.common.Header;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
@@ -14,16 +15,15 @@ import java.util.List;
 public abstract class ProductsPageBase extends AbstractPage implements IMobileUtils {
 
     @ExtendedFindBy(accessibilityId = "test-Modal Selector Button")
-    private ExtendedWebElement selectorButton;
+    protected ExtendedWebElement selectorButton;
 
     public ProductsPageBase(WebDriver driver) {
         super(driver);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
+        setUiLoadedMarker(selectorButton);
     }
 
-    public SortModal openSortModal() {
-        tap(selectorButton);
-        return new SortModal(driver);
-    }
+    public abstract SortModalBase openSortModal();
 
     public abstract boolean isProductListSortedByPriceLowToHigh();
 
@@ -35,7 +35,7 @@ public abstract class ProductsPageBase extends AbstractPage implements IMobileUt
 
     public abstract Header getHeader();
 
-    public abstract ProductCardComponent getARandomProduct();
+    public abstract ProductCardComponentBase getARandomProduct();
 
-    public abstract List<ProductCardComponent> getProducts();
+    public abstract List<? extends ProductCardComponentBase> getProducts();
 }

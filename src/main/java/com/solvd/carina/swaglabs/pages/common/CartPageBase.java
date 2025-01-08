@@ -1,6 +1,6 @@
 package com.solvd.carina.swaglabs.pages.common;
 
-import com.solvd.carina.swaglabs.components.ios.CartItem;
+import com.solvd.carina.swaglabs.components.common.CartItemBase;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -18,7 +18,7 @@ public abstract class CartPageBase extends AbstractPage implements IMobileUtils 
         super(driver);
     }
 
-    public abstract List<CartItem> getCartItems();
+    public abstract List<? extends CartItemBase> getCartItems();
 
     public abstract boolean isCartEmpty();
 

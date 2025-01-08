@@ -1,27 +1,29 @@
-package com.solvd.carina.swaglabs.components.ios;
+package com.solvd.carina.swaglabs.components.android;
 
 import com.solvd.carina.swaglabs.components.common.CartItemBase;
-import com.zebrunner.carina.utils.ios.IOSUtils;
+import com.zebrunner.carina.utils.android.IAndroidUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 
-public class CartItem extends CartItemBase implements IOSUtils {
-    @ExtendedFindBy(accessibilityId = "test-Amount")
+public class CartItem extends CartItemBase implements IAndroidUtils {
+
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"test-Amount\"]/android.widget.TextView")
     private ExtendedWebElement amount;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther/XCUIElementTypeOther[`name == 'test-Description'`]/XCUIElementTypeStaticText[1]")
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc='test-Description']/android.widget.TextView[1]")
     private ExtendedWebElement name;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther/XCUIElementTypeOther[`name == 'test-Description'`]/XCUIElementTypeStaticText[2]")
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc='test-Description']/android.widget.TextView[2]")
     private ExtendedWebElement description;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == 'test-Price'`]/XCUIElementTypeStaticText[1]")
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"test-Price\"]/android.widget.TextView[1]")
     private ExtendedWebElement price;
 
-    @ExtendedFindBy(accessibilityId = "test-REMOVE")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"REMOVE\"]")
     private ExtendedWebElement removeBtn;
+
 
     public CartItem(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -49,7 +51,6 @@ public class CartItem extends CartItemBase implements IOSUtils {
 
     @Override
     public void clickOnRemoveBtn() {
-        swipe(removeBtn);
         tap(removeBtn);
     }
 

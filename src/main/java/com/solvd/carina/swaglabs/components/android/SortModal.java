@@ -1,23 +1,23 @@
-package com.solvd.carina.swaglabs.components.ios;
+package com.solvd.carina.swaglabs.components.android;
 
 import com.solvd.carina.swaglabs.components.common.SortModalBase;
-import com.zebrunner.carina.utils.mobile.IMobileUtils;
+import com.zebrunner.carina.utils.android.IAndroidUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 
-public class SortModal extends SortModalBase implements IMobileUtils {
+public class SortModal extends SortModalBase implements IAndroidUtils {
 
-    @ExtendedFindBy(accessibilityId = "Name (A to Z)")
+    @FindBy(xpath = "//android.widget.TextView[@text='Name (A to Z)']")
     private ExtendedWebElement nameAToZ;
 
-    @ExtendedFindBy(accessibilityId = "Name (Z to A)")
+    @FindBy(xpath = "//android.widget.TextView[@text='Name (Z to A)']")
     private ExtendedWebElement nameZToA;
 
-    @ExtendedFindBy(accessibilityId = "Price (low to high)")
+    @FindBy(xpath = "//android.widget.TextView[@text='Price (low to high)']")
     private ExtendedWebElement priceLowToHigh;
 
-    @ExtendedFindBy(accessibilityId = "Price (high to low)")
+    @FindBy(xpath = "//android.widget.TextView[@text='Price (high to low)']")
     private ExtendedWebElement priceHighToLow;
 
     public SortModal(WebDriver driver) {

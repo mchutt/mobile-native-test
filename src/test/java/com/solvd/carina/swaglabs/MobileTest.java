@@ -1,8 +1,8 @@
 package com.solvd.carina.swaglabs;
 
+import com.solvd.carina.swaglabs.components.common.CartItemBase;
 import com.solvd.carina.swaglabs.components.common.MenuComponentBase;
-import com.solvd.carina.swaglabs.components.ios.CartItem;
-import com.solvd.carina.swaglabs.components.ios.ProductCardComponent;
+import com.solvd.carina.swaglabs.components.common.ProductCardComponentBase;
 import com.solvd.carina.swaglabs.constants.UserData;
 import com.solvd.carina.swaglabs.pages.common.*;
 import com.zebrunner.carina.core.AbstractTest;
@@ -26,7 +26,6 @@ public class MobileTest extends AbstractTest {
         LoginPageBase loginPage = initPage(getDriver(), LoginPageBase.class);
         loginPage.login(UserData.INVALID_USER, UserData.INVALID_PASS);
         Assert.assertTrue(loginPage.isErrorMessagePresent(), "The error message for invalid credentials is not present");
-
     }
 
     @Test
@@ -44,10 +43,9 @@ public class MobileTest extends AbstractTest {
     public void verifyOpenProductDetails() {
         ProductsPageBase productsPage = loginWithValidCredentials();
 
-        ProductCardComponent product = productsPage.getARandomProduct();
+        ProductCardComponentBase product = productsPage.getARandomProduct();
         String name = product.getProductName();
         String price = product.getProductPrice();
-
         ProductDetailsPageBase productDetailsPage = product.clickOnOpenDetails();
         String productName = productDetailsPage.getProductName();
         String productPrice = productDetailsPage.getProductPrice();
@@ -62,9 +60,11 @@ public class MobileTest extends AbstractTest {
         ProductsPageBase productsPage = loginWithValidCredentials();
 
         productsPage.openSortModal().sortByPriceLowToHigh();
+        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by price low to high");
         Assert.assertTrue(productsPage.isProductListSortedByPriceLowToHigh(), "Product list is not sorted by price in ascending order");
 
         productsPage.openSortModal().sortByPriceHighToLow();
+        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by price high to low");
         Assert.assertTrue(productsPage.isProductListSortedByPriceHighToLow(), "Product list is not sorted by price in descending order");
     }
 
@@ -95,7 +95,7 @@ public class MobileTest extends AbstractTest {
     public void verifyAddAProductToTheCartAndRemoveIt() {
         ProductsPageBase productsPage = loginWithValidCredentials();
 
-        CartItem cartItem = addProductToCartAndVerify(productsPage);
+        CartItemBase cartItem = addProductToCartAndVerify(productsPage);
         cartItem.clickOnRemoveBtn();
         CartPageBase cartPage = initPage(getDriver(), CartPageBase.class);
         Assert.assertTrue(cartPage.isCartEmpty(), "The cart is not empty");
@@ -124,7 +124,7 @@ public class MobileTest extends AbstractTest {
     public void verifyCheckoutWithEmptyCardDetails() {
         ProductsPageBase productsPage = loginWithValidCredentials();
 
-        ProductCardComponent product = productsPage.getARandomProduct();
+        ProductCardComponentBase product = productsPage.getARandomProduct();
         product.clickOnAddToCartBtn();
         CartPageBase cartPage = productsPage.getHeader().openCart();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
@@ -141,14 +141,14 @@ public class MobileTest extends AbstractTest {
         return productsPage;
     }
 
-    private CartItem addProductToCartAndVerify(ProductsPageBase productsPage) {
-        ProductCardComponent product = productsPage.getARandomProduct();
+    private CartItemBase addProductToCartAndVerify(ProductsPageBase productsPage) {
+        ProductCardComponentBase product = productsPage.getARandomProduct();
         String productName = product.getProductName();
         product.clickOnAddToCartBtn();
         Assert.assertTrue(product.isRemoveFromCartBtnPresent(), "Button 'Remove' is not present!");
         CartPageBase cartPage = productsPage.getHeader().openCart();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
-        CartItem cartItem = cartPage.getCartItems().get(0);
+        CartItemBase cartItem = cartPage.getCartItems().get(0);
         Assert.assertEquals(cartItem.getAmount(), 1, "The product amount do not match");
         Assert.assertEquals(cartItem.getName(), productName, "The product names do not match");
         return cartItem;

@@ -1,27 +1,28 @@
-package com.solvd.carina.swaglabs.components.ios;
+package com.solvd.carina.swaglabs.components.android;
 
 import com.solvd.carina.swaglabs.components.common.ProductCardComponentBase;
+import com.solvd.carina.swaglabs.pages.android.ProductDetailsPage;
 import com.solvd.carina.swaglabs.pages.common.ProductDetailsPageBase;
-import com.solvd.carina.swaglabs.pages.ios.ProductDetailsPage;
-import com.zebrunner.carina.utils.ios.IOSUtils;
+import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ProductCardComponent extends ProductCardComponentBase implements IOSUtils, IMobileUtils {
+public class ProductCardComponent extends ProductCardComponentBase implements IMobileUtils {
 
-    @ExtendedFindBy(iosPredicate = "name == 'test-Item title'")
+    @FindBy(xpath = "//android.widget.TextView[@content-desc='test-Item title']")
     private ExtendedWebElement name;
 
-    @ExtendedFindBy(iosPredicate = "name == 'test-Price'")
+    @FindBy(xpath = "//android.widget.TextView[@content-desc='test-Price']")
     private ExtendedWebElement price;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == 'ADD TO CART'`]")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"ADD TO CART\"]")
     private ExtendedWebElement addToCartBtn;
 
-    @ExtendedFindBy(iosPredicate = "name == 'test-REMOVE'")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"REMOVE\"]")
     private ExtendedWebElement removeFromCartBtn;
 
     public ProductCardComponent(WebDriver driver, SearchContext searchContext) {
@@ -37,6 +38,7 @@ public class ProductCardComponent extends ProductCardComponentBase implements IO
 
     @Override
     public boolean isRemoveFromCartBtnPresent() {
+        waitUntil(ExpectedConditions.visibilityOf(removeFromCartBtn.getElement()), R.CONFIG.getInt("explicit_timeout"));
         return removeFromCartBtn.isElementPresent();
     }
 
@@ -48,6 +50,7 @@ public class ProductCardComponent extends ProductCardComponentBase implements IO
 
     @Override
     public String getProductPrice() {
+        swipe(price);
         return price.getText();
     }
 

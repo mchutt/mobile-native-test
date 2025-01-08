@@ -1,9 +1,12 @@
 package com.solvd.carina.swaglabs.pages.ios;
 
-import com.solvd.carina.swaglabs.components.ios.Header;
+import com.solvd.carina.swaglabs.components.common.ProductCardComponentBase;
+import com.solvd.carina.swaglabs.components.common.SortModalBase;
+import com.solvd.carina.swaglabs.components.common.Header;
 import com.solvd.carina.swaglabs.components.ios.ProductCardComponent;
+import com.solvd.carina.swaglabs.components.ios.SortModal;
+import com.solvd.carina.swaglabs.components.utils.ISortingHelper;
 import com.solvd.carina.swaglabs.pages.common.ProductsPageBase;
-import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +19,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = ProductsPageBase.class)
-public class ProductsPage extends ProductsPageBase {
+public class ProductsPage extends ProductsPageBase implements ISortingHelper {
 
     @FindBy(xpath = "//XCUIElementTypeOther[@name='headerContainer']/..")
     private Header header;
@@ -24,10 +27,16 @@ public class ProductsPage extends ProductsPageBase {
     @ExtendedFindBy(iosPredicate = "name == 'test-Item'")
     private List<ProductCardComponent> productList;
 
-
     public ProductsPage(WebDriver driver) {
         super(driver);
     }
+
+    @Override
+    public SortModalBase openSortModal() {
+        tap(selectorButton);
+        return new SortModal(driver);
+    }
+
 
     @Override
     public Header getHeader() {
@@ -35,52 +44,41 @@ public class ProductsPage extends ProductsPageBase {
     }
 
     @Override
-    public boolean isProductListSortedByPriceLowToHigh(){
+    public boolean isProductListSortedByPriceLowToHigh() {
         List<Double> originalProductPriceList = productList.stream().map(ProductCardComponent::getPriceWithoutDollarSymbol).collect(Collectors.toList());
 
-        return Objects.equals(
-                originalProductPriceList,
-                originalProductPriceList.stream().sorted().collect(Collectors.toList()));
+        return isSortedInAscendingOrder(originalProductPriceList);
     }
 
     @Override
     public boolean isProductListSortedByPriceHighToLow() {
         List<Double> originalProductPriceList = productList.stream().map(ProductCardComponent::getPriceWithoutDollarSymbol).collect(Collectors.toList());
 
-        return Objects.equals(
-                originalProductPriceList,
-                originalProductPriceList.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+        return isSortedInDescendingOrder(originalProductPriceList);
     }
 
     @Override
     public boolean isProductListSortedByNameAToZ() {
         List<String> originalProductNameList = productList.stream().map(ProductCardComponent::getProductName).collect(Collectors.toList());
 
-        return Objects.equals(originalProductNameList,
-                originalProductNameList.stream().sorted().collect(Collectors.toList()));
+        return isSortedInAscendingOrder(originalProductNameList);
     }
 
     @Override
     public boolean isProductListSortedByNameZToA() {
         List<String> originalProductNameList = productList.stream().map(ProductCardComponent::getProductName).collect(Collectors.toList());
 
-        return Objects.equals(originalProductNameList,
-                originalProductNameList.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+        return isSortedInDescendingOrder(originalProductNameList);
     }
 
     @Override
-    public ProductCardComponent getARandomProduct(){
+    public ProductCardComponentBase getARandomProduct() {
         int rNumber = new Random().nextInt(productList.size());
         return productList.get(rNumber);
     }
 
     @Override
-    public List<ProductCardComponent> getProducts() {
+    public List<? extends ProductCardComponentBase> getProducts() {
         return productList;
-    }
-
-    @Override
-    public boolean isPageOpened() {
-        return waitUntil(d -> !productList.isEmpty(), R.CONFIG.getInt("explicit_timeout"));
     }
 }
