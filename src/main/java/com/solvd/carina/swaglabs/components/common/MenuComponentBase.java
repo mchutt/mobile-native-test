@@ -1,5 +1,6 @@
 package com.solvd.carina.swaglabs.components.common;
 
+import com.solvd.carina.swaglabs.pages.common.DrawingPageBase;
 import com.solvd.carina.swaglabs.pages.common.LoginPageBase;
 import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -12,6 +13,9 @@ public class MenuComponentBase extends AbstractUIObject implements ICustomTypePa
     @ExtendedFindBy(accessibilityId = "test-LOGOUT")
     private ExtendedWebElement logoutBtn;
 
+    @ExtendedFindBy(accessibilityId = "test-DRAWING")
+    private ExtendedWebElement drawingBtn;
+
     public MenuComponentBase(WebDriver driver) {
         super(driver);
     }
@@ -19,6 +23,11 @@ public class MenuComponentBase extends AbstractUIObject implements ICustomTypePa
     public LoginPageBase clickOnLogoutBtn(){
         logoutBtn.click();
         return initPage(driver, LoginPageBase.class);
+    }
+
+    public DrawingPageBase clickOnDrawingBtn(){
+        drawingBtn.click();
+        return initPage(driver, DrawingPageBase.class);
     }
 
 }

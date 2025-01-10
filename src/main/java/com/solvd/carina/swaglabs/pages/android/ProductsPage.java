@@ -5,7 +5,7 @@ import com.solvd.carina.swaglabs.components.android.SortModal;
 import com.solvd.carina.swaglabs.components.common.ProductCardComponentBase;
 import com.solvd.carina.swaglabs.components.common.SortModalBase;
 import com.solvd.carina.swaglabs.components.common.Header;
-import com.solvd.carina.swaglabs.components.utils.ISortingHelper;
+import com.solvd.carina.swaglabs.utils.ISortingHelper;
 import com.solvd.carina.swaglabs.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.factory.DeviceType;

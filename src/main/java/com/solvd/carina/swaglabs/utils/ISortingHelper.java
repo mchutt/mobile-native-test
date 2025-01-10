@@ -1,4 +1,4 @@
-package com.solvd.carina.swaglabs.components.utils;
+package com.solvd.carina.swaglabs.utils;
 
 import java.util.List;
 

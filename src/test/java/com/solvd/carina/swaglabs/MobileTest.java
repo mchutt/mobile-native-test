@@ -12,6 +12,8 @@ import com.zebrunner.carina.webdriver.ScreenshotType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static com.solvd.carina.swaglabs.utils.ImageValidationHelper.compareCurrentViewAgainstBaselineImage;
+
 public class MobileTest extends AbstractTest {
 
     @Test
@@ -131,6 +133,26 @@ public class MobileTest extends AbstractTest {
         CheckoutPageBase checkoutPage = cartPage.clickOnCheckoutBtn();
         checkoutPage.clickContinue();
         Assert.assertTrue(checkoutPage.isFirstNameErrorMessageVisible(), "The message 'first name is required' is not visible!");
+    }
+
+    @Test(description = "This test only runs on ios platform yet")
+    @MethodOwner(owner = "mchutt")
+    public void verifyDrawingFeature() {
+        String baselineImagePath = "/Users/solvd/Projects/mobile-native-test/src/main/resources/images/baseline.png";
+
+        ProductsPageBase productsPage = loginWithValidCredentials();
+        MenuComponentBase menu = productsPage.getHeader().openMenu();
+        DrawingPageBase drawingPage = menu.clickOnDrawingBtn();
+        Assert.assertTrue(drawingPage.isPageOpened(), "Drawing page is not opened!");
+
+
+        boolean isDrawnImageShapePresent = compareCurrentViewAgainstBaselineImage(getDriver(), baselineImagePath);
+        System.out.println("Before drawing, value should be false: " + isDrawnImageShapePresent);
+
+        drawingPage.drawShape();
+
+        boolean isDrawnImageShapePresent1 = compareCurrentViewAgainstBaselineImage(getDriver(), baselineImagePath);
+        Assert.assertTrue(isDrawnImageShapePresent1, "The drawn shape is not present! Minimum similarity not met!");
     }
 
 

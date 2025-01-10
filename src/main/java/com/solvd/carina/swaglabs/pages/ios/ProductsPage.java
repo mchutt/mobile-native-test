@@ -5,16 +5,14 @@ import com.solvd.carina.swaglabs.components.common.SortModalBase;
 import com.solvd.carina.swaglabs.components.common.Header;
 import com.solvd.carina.swaglabs.components.ios.ProductCardComponent;
 import com.solvd.carina.swaglabs.components.ios.SortModal;
-import com.solvd.carina.swaglabs.components.utils.ISortingHelper;
+import com.solvd.carina.swaglabs.utils.ISortingHelper;
 import com.solvd.carina.swaglabs.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
