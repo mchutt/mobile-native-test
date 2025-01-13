@@ -2,7 +2,7 @@ package com.solvd.carina.swaglabs.pages.android;
 
 import com.solvd.carina.swaglabs.pages.common.CheckoutCompletePageBase;
 import com.solvd.carina.swaglabs.pages.common.CheckoutOverviewPageBase;
-import com.solvd.carina.swaglabs.pages.common.ProductsPageBase;
+import com.solvd.carina.swaglabs.pages.common.ProductListPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
@@ -33,9 +33,9 @@ public class CheckoutOverviewPage extends CheckoutOverviewPageBase {
     }
 
     @Override
-    public ProductsPageBase clickOnCancelBtn() {
+    public ProductListPageBase clickOnCancelBtn() {
         swipe(cancelBtn);
         tap(cancelBtn);
-        return initPage(driver, ProductsPageBase.class);
+        return initPage(driver, ProductListPageBase.class);
     }
 }

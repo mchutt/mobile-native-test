@@ -27,11 +27,11 @@ public abstract class LoginPageBase extends AbstractPage implements IMobileUtils
         setUiLoadedMarker(usernameInput);
     }
 
-    public ProductsPageBase login(String username, String pass) {
+    public ProductListPageBase login(String username, String pass) {
         usernameInput.type(username);
         passwordInput.type(pass);
         tap(loginButton);
-        return initPage(driver, ProductsPageBase.class);
+        return initPage(driver, ProductListPageBase.class);
     }
 
     public boolean isErrorMessagePresent() {

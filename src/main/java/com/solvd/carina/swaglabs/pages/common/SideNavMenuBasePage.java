@@ -1,18 +1,16 @@
-package com.solvd.carina.swaglabs.components.common;
+package com.solvd.carina.swaglabs.pages.common;
 
-import com.solvd.carina.swaglabs.pages.common.LoginPageBase;
-import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.WebDriver;
 
-public class MenuComponentBase extends AbstractUIObject implements ICustomTypePageFactory {
+public class SideNavMenuBasePage extends AbstractPage {
 
     @ExtendedFindBy(accessibilityId = "test-LOGOUT")
     private ExtendedWebElement logoutBtn;
 
-    public MenuComponentBase(WebDriver driver) {
+    public SideNavMenuBasePage(WebDriver driver) {
         super(driver);
     }
 

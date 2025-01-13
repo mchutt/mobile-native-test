@@ -26,9 +26,9 @@ public abstract class CheckoutOverviewPageBase extends AbstractPage implements I
         return initPage(driver, CheckoutCompletePageBase.class);
     }
 
-    public ProductsPageBase clickOnCancelBtn() {
+    public ProductListPageBase clickOnCancelBtn() {
         swipe(cancelBtn);
         tap(cancelBtn);
-        return initPage(driver, ProductsPageBase.class);
+        return initPage(driver, ProductListPageBase.class);
     }
 }
