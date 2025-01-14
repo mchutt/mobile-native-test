@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite verbose="1" name="Swag labs">
+
+    <test name="Tests">
+        <classes>
+            <class name="com.solvd.carina.swaglabs.LoginTest" />
+            <class name="com.solvd.carina.swaglabs.SortTest" />
+            <class name="com.solvd.carina.swaglabs.CheckoutTest" />
+        </classes>
+    </test>
+
+</suite>
