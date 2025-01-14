@@ -14,6 +14,7 @@ public class CheckoutTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifyOpenProductDetails() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
         ProductCardComponentBase product = productListPage.getARandomProduct();
         String name = product.getProductName();
@@ -30,18 +31,30 @@ public class CheckoutTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifyAddAProductToTheCart() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
-        addProductToCartAndVerify(productListPage);
+        ProductCardComponentBase product = addARandomProductToTheCart(productListPage);
+        String productName = product.getProductName();
+        Assert.assertTrue(product.isRemoveFromCartBtnPresent(), "Button 'Remove' is not present!");
+        CartPageBase cartPage = productListPage.getHeader().openCart();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
+        CartItemBase cartItem = cartPage.getCartItems().get(0);
+        Assert.assertEquals(cartItem.getAmount(), 1, "The product amount do not match");
+        Assert.assertEquals(cartItem.getName(), productName, "The product names do not match");
     }
 
     @Test
     @MethodOwner(owner = "mchutt")
     public void verifyAddAProductToTheCartAndRemoveIt() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
-        CartItemBase cartItem = addProductToCartAndVerify(productListPage);
+        addARandomProductToTheCart(productListPage);
+        CartPageBase cartPage = productListPage.getHeader().openCart();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
+        CartItemBase cartItem = cartPage.getCartItems().get(0);
+
         cartItem.clickOnRemoveBtn();
-        CartPageBase cartPage = initPage(getDriver(), CartPageBase.class);
         Assert.assertTrue(cartPage.isCartEmpty(), "The cart is not empty");
     }
 
@@ -49,6 +62,7 @@ public class CheckoutTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifyCheckout() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
         productListPage.getARandomProduct().clickOnAddToCartBtn();
         CartPageBase cartPage = productListPage.getHeader().openCart();
@@ -67,27 +81,13 @@ public class CheckoutTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifyCheckoutWithEmptyCardDetails() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
-        ProductCardComponentBase product = productListPage.getARandomProduct();
-        product.clickOnAddToCartBtn();
+        addARandomProductToTheCart(productListPage);
         CartPageBase cartPage = productListPage.getHeader().openCart();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
         CheckoutPageBase checkoutPage = cartPage.clickOnCheckoutBtn();
         checkoutPage.clickContinue();
         Assert.assertTrue(checkoutPage.isFirstNameErrorMessageVisible(), "The message 'first name is required' is not visible!");
     }
-
-    private CartItemBase addProductToCartAndVerify(ProductListPageBase productListPage) {
-        ProductCardComponentBase product = productListPage.getARandomProduct();
-        String productName = product.getProductName();
-        product.clickOnAddToCartBtn();
-        Assert.assertTrue(product.isRemoveFromCartBtnPresent(), "Button 'Remove' is not present!");
-        CartPageBase cartPage = productListPage.getHeader().openCart();
-        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
-        CartItemBase cartItem = cartPage.getCartItems().get(0);
-        Assert.assertEquals(cartItem.getAmount(), 1, "The product amount do not match");
-        Assert.assertEquals(cartItem.getName(), productName, "The product names do not match");
-        return cartItem;
-    }
-
 }

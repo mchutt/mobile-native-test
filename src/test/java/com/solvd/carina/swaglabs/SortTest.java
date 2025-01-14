@@ -14,6 +14,7 @@ public class SortTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifySortingProductsByPrice() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
         productListPage.openFilterComponent().sortBy(SortType.PRICE_LOW_TO_HIGH);
         Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by price low to high");
@@ -28,6 +29,7 @@ public class SortTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifySortingProductsByName() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
         productListPage.openFilterComponent().sortBy(SortType.NAME_A_TO_Z);
         Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by name from a to z");

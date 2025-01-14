@@ -49,6 +49,7 @@ public class LoginTest extends SwagLabsAbstractTest {
     @MethodOwner(owner = "mchutt")
     public void verifyLogout() {
         ProductListPageBase productListPage = login();
+        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
 
         SideNavMenuBasePage menu = productListPage.getHeader().openMenu();
         LoginPageBase loginPage = menu.clickOnLogoutBtn();
