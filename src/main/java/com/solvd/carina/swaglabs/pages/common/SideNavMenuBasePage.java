@@ -1,8 +1,5 @@
 package com.solvd.carina.swaglabs.pages.common;
 
-import com.solvd.carina.swaglabs.pages.common.DrawingPageBase;
-import com.solvd.carina.swaglabs.pages.common.LoginPageBase;
-import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;

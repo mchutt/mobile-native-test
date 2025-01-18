@@ -17,14 +17,16 @@ public class DrawingPage extends DrawingPageBase implements IOSUtils {
     @ExtendedFindBy(accessibilityId = "Signature Pad demo")
     private ExtendedWebElement screen;
 
-    @ExtendedFindBy(image = "images/text.png")
-    private ExtendedWebElement drawingText;
+    @ExtendedFindBy(accessibilityId = "test-CLEAR")
+    private ExtendedWebElement cleanBtn;
 
+    @ExtendedFindBy(image = "images/text.png")
+    private ExtendedWebElement title;
 
     public DrawingPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
-        setUiLoadedMarker(drawingText);
+        setUiLoadedMarker(title);
     }
 
     @Override
@@ -45,5 +47,9 @@ public class DrawingPage extends DrawingPageBase implements IOSUtils {
         swipe(startX, midY, endX, midY, 1000);
     }
 
+    @Override
+    public void clickOnCleanBtn() {
+        cleanBtn.click();
+    }
 
 }

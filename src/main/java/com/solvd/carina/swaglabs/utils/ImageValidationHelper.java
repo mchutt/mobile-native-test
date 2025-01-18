@@ -1,7 +1,6 @@
 package com.solvd.carina.swaglabs.utils;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 
 public class ImageValidationHelper {
 
@@ -28,16 +28,16 @@ public class ImageValidationHelper {
         return driver;
     }
 
-    public static boolean compareCurrentViewAgainstBaselineImage(WebDriver driver, String baselineImagePath) {
-        driver = getPureDriver(driver);
-        AppiumDriver appiumDriver = (AppiumDriver) driver;
-
+    public static boolean compareCurrentViewAgainstBaselineImage(WebDriver driver, String baselineImage) {
+        WebDriver pureDriver = getPureDriver(driver);
+        if (!(pureDriver instanceof AppiumDriver)) {
+            throw new RuntimeException("Driver is not an instance of AppiumDriver");
+        }
+        AppiumDriver appiumDriver = (AppiumDriver) pureDriver;
         //baselineScreenshot screenshot
-        File baselineScreenshot = new File(baselineImagePath);
-
+        File baselineScreenshot = getResourceAsFile(baselineImage);
         //current screenshot
         File currentScreenshot = appiumDriver.getScreenshotAs(OutputType.FILE);
-
         //get image similarity score
         double imagesSimilarityScore;
         try {
@@ -50,10 +50,22 @@ public class ImageValidationHelper {
             LOGGER.error("Unexpected error during image comparison: {}", e.getMessage());
             return false;
         }
-
         LOGGER.debug("Minimum similarity score required: {}", MINIMUM_SIMILARITY);
         LOGGER.info("Similarity score: {}", imagesSimilarityScore);
         return imagesSimilarityScore > MINIMUM_SIMILARITY;
+    }
+
+    private static File getResourceAsFile(String resourcePath) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL resourceUrl = classLoader.getResource(resourcePath);
+        if (resourceUrl == null) {
+            throw new IllegalArgumentException("Resource not found in the classpath: " + resourcePath);
+        }
+        try {
+            return new File(resourceUrl.toURI());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert URL to URI for resource: " + resourcePath, e);
+        }
     }
 
 }

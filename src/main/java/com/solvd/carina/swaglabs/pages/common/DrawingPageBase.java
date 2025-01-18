@@ -10,4 +10,5 @@ public abstract class DrawingPageBase extends AbstractPage {
     }
 
     public abstract void drawShape();
+    public abstract void clickOnCleanBtn();
 }
