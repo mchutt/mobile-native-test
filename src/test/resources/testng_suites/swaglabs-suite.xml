@@ -6,6 +6,7 @@
             <class name="com.solvd.carina.swaglabs.LoginTest" />
             <class name="com.solvd.carina.swaglabs.SortTest" />
             <class name="com.solvd.carina.swaglabs.CheckoutTest" />
+            <class name="com.solvd.carina.swaglabs.DrawingTest" />
         </classes>
     </test>
 

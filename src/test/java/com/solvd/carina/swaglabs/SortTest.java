@@ -6,37 +6,33 @@ import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.webdriver.Screenshot;
 import com.zebrunner.carina.webdriver.ScreenshotType;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SortTest extends SwagLabsAbstractTest {
 
-    @Test
-    @MethodOwner(owner = "mchutt")
-    public void verifySortingProductsByPrice() {
-        ProductListPageBase productListPage = login();
-        Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
-
-        productListPage.openFilterComponent().sortBy(SortType.PRICE_LOW_TO_HIGH);
-        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by price low to high");
-        Assert.assertTrue(productListPage.isProductListSortedBy(SortType.PRICE_LOW_TO_HIGH), "Product list is not sorted by price in ascending order");
-
-        productListPage.openFilterComponent().sortBy(SortType.PRICE_HIGH_TO_LOW);
-        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by price high to low");
-        Assert.assertTrue(productListPage.isProductListSortedBy(SortType.PRICE_HIGH_TO_LOW), "Product list is not sorted by price in descending order");
+    @DataProvider(name = "sortTypes")
+    public Object[][] sortTypes() {
+        return new Object[][]{
+                new Object[]{SortType.PRICE_LOW_TO_HIGH},
+                new Object[]{SortType.PRICE_HIGH_TO_LOW},
+                new Object[]{SortType.NAME_A_TO_Z},
+                new Object[]{SortType.NAME_Z_TO_A}
+        };
     }
 
-    @Test
+    @Test(dataProvider = "sortTypes")
     @MethodOwner(owner = "mchutt")
-    public void verifySortingProductsByName() {
+    public void verifySortingProductsBy(SortType sortType) {
         ProductListPageBase productListPage = login();
         Assert.assertTrue(productListPage.isPageOpened(), "Products page is not opened!");
+        verifySorting(productListPage, sortType);
+    }
 
-        productListPage.openFilterComponent().sortBy(SortType.NAME_A_TO_Z);
-        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by name from a to z");
-        Assert.assertTrue(productListPage.isProductListSortedBy(SortType.NAME_A_TO_Z), "Product list is not sorted by name from a to z");
-
-        productListPage.openFilterComponent().sortBy(SortType.NAME_Z_TO_A);
-        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by name from z to a");
-        Assert.assertTrue(productListPage.isProductListSortedBy(SortType.NAME_Z_TO_A), "Product list is not sorted by name from z to a");
+    private void verifySorting(ProductListPageBase productListPage, SortType sortType) {
+        productListPage.openFilterComponent().sortBy(sortType);
+        Screenshot.capture(getDriver(), ScreenshotType.EXPLICIT_FULL_SIZE, "after sorting by " + sortType.getValue());
+        Assert.assertTrue(productListPage.isProductListSortedBy(sortType),
+                "Product list is not sorted by " + sortType.getValue());
     }
 }

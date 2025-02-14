@@ -10,13 +10,20 @@ public class SideNavMenuBasePage extends AbstractPage {
     @ExtendedFindBy(accessibilityId = "test-LOGOUT")
     private ExtendedWebElement logoutBtn;
 
+    @ExtendedFindBy(accessibilityId = "test-DRAWING")
+    private ExtendedWebElement drawingBtn;
+
     public SideNavMenuBasePage(WebDriver driver) {
         super(driver);
     }
 
-    public LoginPageBase clickOnLogoutBtn(){
+    public LoginPageBase clickOnLogoutBtn() {
         logoutBtn.click();
         return initPage(driver, LoginPageBase.class);
     }
 
+    public DrawingPageBase clickOnDrawingBtn() {
+        drawingBtn.click();
+        return initPage(driver, DrawingPageBase.class);
+    }
 }

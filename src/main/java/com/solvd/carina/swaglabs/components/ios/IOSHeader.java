@@ -7,8 +7,14 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class IOSHeader extends HeaderComponentBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(IOSHeader.class);
 
     @ExtendedFindBy(accessibilityId = "test-Cart")
     private ExtendedWebElement cartBtn;
@@ -21,26 +27,34 @@ public class IOSHeader extends HeaderComponentBase {
     }
 
     @Override
-    public CartPageBase openCart(){
-        int x = cartBtn.getLocation().x;
-        int y = cartBtn.getLocation().y;
-
-        int hDividedBy2 = cartBtn.getSize().height / 2;
-        int wDividedBy2 = cartBtn.getSize().width / 2;
-
-        tap(x + wDividedBy2, y + hDividedBy2 + 10);
+    public CartPageBase openCart() {
+        safeTap(cartBtn);
         return initPage(driver, CartPageBase.class);
     }
 
     @Override
-    public SideNavMenuBasePage openMenu(){
-        int x = menuBtn.getLocation().x;
-        int y = menuBtn.getLocation().y;
-
-        int hDividedBy2 = menuBtn.getSize().height / 2;
-        int wDividedBy2 = menuBtn.getSize().width / 2;
-
-        tap(x + wDividedBy2, y + hDividedBy2 + 10);
+    public SideNavMenuBasePage openMenu() {
+        safeTap(menuBtn);
         return new SideNavMenuBasePage(driver);
+    }
+
+
+    // helper methods
+    private void safeTap(ExtendedWebElement button) {
+        String deviceName = getDevice().getName();
+        if (Objects.equals(deviceName, "iPhone 16") || Objects.equals(deviceName, "\"iPhone 16\"")) {
+            tapByCoordinates(button);
+        } else {
+            button.click();
+        }
+    }
+
+    private void tapByCoordinates(ExtendedWebElement button) {
+        LOGGER.info("Tap on {} by coordinates." , button);
+        int x = button.getLocation().x;
+        int y = button.getLocation().y;
+        int hDividedBy2 = button.getSize().height / 2;
+        int wDividedBy2 = button.getSize().width / 2;
+        tap(x + wDividedBy2, y + hDividedBy2 + 10);
     }
 }
